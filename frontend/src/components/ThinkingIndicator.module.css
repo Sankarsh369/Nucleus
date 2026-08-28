@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 15px;
+}
+
+.icon {
+  color: #3b82f6; /* Blue tint for standard AI aesthetic */
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.textWrapper {
+  position: relative;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.phrase {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.phrase.active {
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -1,0 +1,5 @@
+The Nucleus engine is designed to run in ultra-low resource environments. It achieves this by using a lightweight two-stage context compression engine. The first stage performs semantic chunk-level deduplication to discard redundant information. The second stage performs line-level filler stripping by computing TF-IDF density scores.
+
+The Nucleus engine is designed to run in ultra-low resource environments. It achieves this by using a lightweight two-stage context compression engine. The first stage performs semantic chunk-level deduplication to discard redundant information. The second stage performs line-level filler stripping by computing TF-IDF density scores.
+
+By combining these two stages, the context size is reduced by over 70% while preserving crucial developer discussions, configurations, and exception trace signatures.

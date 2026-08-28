@@ -1,0 +1,402 @@
+/* MAIN COMPACT SUMMARY (TRIGGER) */
+.pipelineContainer {
+  width: 100%;
+  margin-bottom: 24px;
+}
+.compactSummary {
+  background: linear-gradient(135deg, rgba(30, 30, 35, 0.9), rgba(15, 15, 20, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 16px 24px;
+  margin-bottom: 24px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.05);
+  display: flex;
+  flex-direction: column;
+}
+.compactSummary:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.1);
+}
+.summaryHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+.summaryStatsInline {
+  font-size: 13px;
+  display: flex;
+  gap: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Inter', sans-serif;
+  align-items: center;
+}
+.summaryStatsInline span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.05);
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ======================================================
+   GLASSMORPHIC MODAL OVERLAY (THE POPUP)
+====================================================== */
+.drawerOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999; /* Ensure it's above everything */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+/* The heavy dark backdrop to completely obscure the chat */
+.drawerBackdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.85); /* Much darker to block text bleed */
+  backdrop-filter: blur(24px); /* Very heavy blur */
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* The actual modal window */
+.drawerPanel {
+  position: relative;
+  width: 1100px;
+  max-width: 95vw;
+  height: 85vh;
+  background: linear-gradient(145deg, rgba(25, 25, 30, 0.95), rgba(10, 10, 12, 0.98));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  box-shadow: 
+    0 32px 80px rgba(0,0,0,0.8), 
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    0 0 100px rgba(139, 92, 246, 0.05); /* Subtle purple glow behind modal */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Modal Header */
+.drawerHeader {
+  padding: 20px 32px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+.drawerTitle {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+.iconBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.iconBtn:hover {
+  background: rgba(239, 68, 68, 0.15); /* Soft red hover for close */
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  transform: rotate(90deg);
+}
+
+/* Modal Content Area */
+.drawerContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+  scroll-behavior: smooth;
+}
+.drawerContent::-webkit-scrollbar {
+  width: 8px;
+}
+.drawerContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+.drawerContent::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+.drawerContent::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ======================================================
+   THE TRACE GRID (TIMELINE + CARDS)
+====================================================== */
+.traceGrid {
+  display: flex;
+  gap: 48px;
+  height: 100%;
+}
+
+/* 1. Left Timeline Column */
+.timelineCol {
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: relative;
+}
+.timelineLine {
+  position: absolute;
+  left: 13px;
+  top: 16px;
+  bottom: 16px;
+  width: 2px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+  z-index: 0;
+}
+.timelineItem {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+.timelineIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #18181b;
+  border: 2px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.timelineLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.4);
+  text-transform: capitalize;
+  transition: all 0.4s ease;
+}
+
+/* Timeline Status Colors */
+.status_completed .timelineIcon {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.8);
+}
+.status_completed .timelineLabel {
+  color: rgba(255, 255, 255, 0.7);
+}
+.status_active .timelineIcon {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
+}
+.status_active .timelineLabel {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+}
+
+/* 2. Right Content Column (Cards) */
+.traceContentCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 800px;
+}
+
+/* Redesigned Premium Cards */
+.stageCard {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.stageCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+}
+.stageCard:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+}
+
+.stageHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.stageTitleIcon {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255,255,255,0.1);
+  padding: 8px;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+}
+.stageHeader h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* Mac-Style Terminal Log */
+.terminalLog {
+  background: #000000;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 20px 24px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+  position: relative;
+}
+/* Mac Dots */
+.terminalLog::before {
+  content: '';
+  position: absolute;
+  top: 12px; left: 16px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 16px 0 0 #f59e0b, 32px 0 0 #10b981;
+}
+.terminalLog p { 
+  margin: 0; 
+  line-height: 1.5; 
+  color: rgba(255, 255, 255, 0.8) !important; /* Force high visibility */
+}
+.terminalLog p:first-child {
+  margin-top: 16px;
+}
+.logSuccess { color: #10b981 !important; font-weight: 500 !important; }
+.logInfo { color: #60a5fa !important; }
+
+/* Premium Metrics Grid */
+.metricsGridInline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+}
+.metricMiniCard {
+  background: rgba(255, 255, 255, 0.03); /* Brighter for readability */
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.metricMiniCard:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+.metricMiniCard label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.7); /* Brighter for readability */
+  font-weight: 600;
+}
+.metricVal {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+/* Modern Frosted Chips */
+.chipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+.chip {
+  background: rgba(255, 255, 255, 0.08); /* Brighter for readability */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.chip:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Visual Chunks Grid */
+.visualChunksGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+  gap: 8px;
+  margin-top: 24px;
+  padding: 16px;
+  background: rgba(0,0,0,0.3); /* Darker to contrast chunks */
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.miniChunk {
+  height: 20px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+.miniChunkRemoved {
+  text-decoration: line-through;
+  background-color: rgba(239, 68, 68, 0.25) !important; /* RED highlight for destructive action */
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  transform: scale(0.95);
+}

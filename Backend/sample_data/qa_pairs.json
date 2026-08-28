@@ -1,0 +1,14 @@
+[
+  {
+    "question": "What connection pool limit was ultimately agreed upon by Developer A and Developer B?",
+    "expected_answer": "50 (increased from 20)"
+  },
+  {
+    "question": "What are the default names of the primary and secondary loggers created by the setup functions?",
+    "expected_answer": "app_primary and app_secondary"
+  },
+  {
+    "question": "What specific exception is raised in process_record when the key 'payload' is not found in the input data?",
+    "expected_answer": "KeyError"
+  }
+]

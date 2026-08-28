@@ -1,0 +1,127 @@
+# ==============================================================================
+# Densho Mock Codebase for Testing Context Compression
+# This file contains redundant utility functions, verbose logging setup, boilerplate
+# comment blocks, and repetitive error handlers to simulate a real-world messy context.
+# ==============================================================================
+
+import os
+import sys
+import time
+import logging
+from datetime import datetime
+
+# ------------------------------------------------------------------------------
+# BOILERPLATE LOGGER INITIALIZATION (REDUNDANT LOGGER INITIALIZATION)
+# ------------------------------------------------------------------------------
+
+def setup_logger_primary(name: str = "app_primary") -> logging.Logger:
+    """
+    Sets up a logger with console formatting and file output.
+    This is the main logger used across the primary namespace.
+    """
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
+    
+    formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] [%(name)s] - %(message)s')
+    
+    # Console Handler
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(formatter)
+    logger.addHandler(console_handler)
+    
+    # File Handler
+    file_handler = logging.FileHandler("primary_execution.log")
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+    
+    logger.info("Primary logger successfully initialized and configured.")
+    return logger
+
+
+def setup_logger_secondary(name: str = "app_secondary") -> logging.Logger:
+    """
+    Sets up a logger with console formatting and file output.
+    This is the secondary logger used across the secondary namespace.
+    """
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
+    
+    formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] [%(name)s] - %(message)s')
+    
+    # Console Handler
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(formatter)
+    logger.addHandler(console_handler)
+    
+    # File Handler
+    file_handler = logging.FileHandler("secondary_execution.log")
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+    
+    logger.info("Secondary logger successfully initialized and configured.")
+    return logger
+
+# ------------------------------------------------------------------------------
+# DUPLICATED TIMESTAMP FORMATTING UTILITIES (DUPLICATION STARTS HERE)
+# ------------------------------------------------------------------------------
+
+def format_timestamp_v1(epoch_time: float) -> str:
+    """
+    Converts epoch float timestamp to ISO 8601 string format (YYYY-MM-DD HH:MM:SS).
+    Deprecated: please use format_timestamp_v2 for standard ISO validation.
+    """
+    dt = datetime.fromtimestamp(epoch_time)
+    return dt.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def format_timestamp_v2(epoch_time: float) -> str:
+    """
+    Converts epoch float timestamp to ISO 8601 string format (YYYY-MM-DD HH:MM:SS).
+    This is the active production timestamp formatter.
+    """
+    dt = datetime.fromtimestamp(epoch_time)
+    return dt.strftime("%Y-%m-%d %H:%M:%S")
+
+# ------------------------------------------------------------------------------
+# CORE LOGIC: PROCESS DATABASE RECORDS
+# ------------------------------------------------------------------------------
+
+def process_record(record_id: int, data: dict) -> dict:
+    """
+    Processes an individual database record, sanitizes input fields, and 
+    computes the processing metadata including execution durations.
+    """
+    start_time = time.time()
+    
+    # Input validation
+    if not record_id or not isinstance(record_id, int):
+        raise ValueError("Invalid record_id: must be a non-zero integer.")
+        
+    if "payload" not in data:
+        raise KeyError("Missing critical 'payload' key in record data dictionary.")
+        
+    payload = data["payload"]
+    sanitized_payload = payload.strip().lower()
+    
+    duration = time.time() - start_time
+    
+    result = {
+        "record_id": record_id,
+        "processed_payload": sanitized_payload,
+        "processed_at": format_timestamp_v2(start_time),
+        "status": "SUCCESS",
+        "duration_sec": duration
+    }
+    
+    return result
+
+# ------------------------------------------------------------------------------
+# SIMULATED CHAT LOG CONTEXT (VERBOSITY AND FILLER CHAT)
+# ------------------------------------------------------------------------------
+# Developer A [10:00 AM]: Hello, I ran into an issue with the connection pool.
+# Developer B [10:01 AM]: Can you check if the connection pool limit is set to 20?
+# Developer A [10:02 AM]: Yes, the connection pool limit is set to 20 in the config.py file.
+# Developer B [10:03 AM]: Let's change the connection pool limit to 50 instead of 20.
+# Developer A [10:04 AM]: I will increase the connection pool limit to 50 right away.
+# Developer B [10:05 AM]: Thanks, that should resolve the database bottleneck.
+# ------------------------------------------------------------------------------

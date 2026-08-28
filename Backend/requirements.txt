@@ -1,0 +1,17 @@
+fastapi>=0.100.0
+uvicorn[standard]>=0.22.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+pytest>=7.4.0
+httpx>=0.24.1
+torch>=2.0.0
+sentence-transformers>=2.2.0
+tiktoken>=0.4.0
+numpy>=1.20.0
+appwrite>=23.0.0
+
+# Note: Groq, Gemini, and Claude are called directly over httpx (see app/llm_client.py),
+# not via their SDKs, so groq/google-generativeai/anthropic packages are intentionally
+# not listed here. scikit-learn and psycopg2-binary are unused: TF-IDF and cosine
+# similarity are hand-rolled in app/compressor.py, and persistence goes through the
+# appwrite server SDK (app/database.py), not a raw Postgres driver.

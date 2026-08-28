@@ -1,0 +1,8 @@
+2026-08-01 10:58:24 INFO: Server started successfully on port 8000
+2026-08-01 10:58:25 DEBUG: Initializing database connection pool limit=50
+2026-08-01 10:58:26 ERROR: Connection pool overflow, rejected connection request from 192.168.1.10
+2026-08-01 10:58:26 ERROR: Connection pool overflow, rejected connection request from 192.168.1.10
+2026-08-01 10:58:26 ERROR: Connection pool overflow, rejected connection request from 192.168.1.10
+2026-08-01 10:58:27 INFO: Flushing database connection metrics
+2026-08-01 10:58:28 WARNING: Disk usage is at 88% capacity on drive C:
+2026-08-01 10:58:29 DEBUG: Processing tick heartbeat metrics
